@@ -33,8 +33,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public String atualizar(@PathVariable Long id, @RequestBody UsuarioRequestDTO dto) {
+    public String atualizar(@PathVariable Long id,@Valid @RequestBody UsuarioRequestDTO dto) {
 
         return service.atualizar(id, dto);
+    }
+    @DeleteMapping("/{id}")
+    public String remover(@PathVariable Long id){
+
+        return service.remover(id);
     }
 }
