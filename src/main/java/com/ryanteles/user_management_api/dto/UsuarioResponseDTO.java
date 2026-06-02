@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Setter
 public class UsuarioResponseDTO {
     private Long id;
-    private String name;
+    private String nome;
     private String sobrenome;
     private LocalDate dataNascimento;
     private String email;

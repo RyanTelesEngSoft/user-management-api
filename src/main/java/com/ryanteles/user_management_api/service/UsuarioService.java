@@ -57,7 +57,7 @@ public class UsuarioService {
 
             dto.setId(usuario.getId());
 
-            dto.setName(usuario.getNome());
+            dto.setNome(usuario.getNome());
 
             dto.setSobrenome(usuario.getSobrenome());
 
