@@ -3,7 +3,7 @@ package com.ryanteles.user_management_api.service;
 
 import com.ryanteles.user_management_api.dto.UsuarioRequestDTO;
 import com.ryanteles.user_management_api.dto.UsuarioResponseDTO;
-import com.ryanteles.user_management_api.model.Usuario;
+import com.ryanteles.user_management_api.entity.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

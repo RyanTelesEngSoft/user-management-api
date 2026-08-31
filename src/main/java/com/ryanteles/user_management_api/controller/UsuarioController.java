@@ -2,10 +2,10 @@ package com.ryanteles.user_management_api.controller;
 
 import com.ryanteles.user_management_api.dto.UsuarioRequestDTO;
 import com.ryanteles.user_management_api.dto.UsuarioResponseDTO;
-import com.ryanteles.user_management_api.model.Usuario;
 import com.ryanteles.user_management_api.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
