@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -27,5 +28,11 @@ public class UsuarioController {
         UsuarioResponseDTO usuarioCriado = usuarioService.cadastrar(usuarioRequestDTO);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioCriado.getId()).toUri();
         return ResponseEntity.created(location).body(usuarioCriado);
+    }
+
+    @GetMapping
+    public List<UsuarioResponseDTO> listar(){
+       return usuarioService.listar();
+       
     }
 }

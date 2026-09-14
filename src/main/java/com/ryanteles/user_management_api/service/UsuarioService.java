@@ -8,6 +8,8 @@ import com.ryanteles.user_management_api.entity.Usuario;
 import com.ryanteles.user_management_api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -41,6 +43,15 @@ public class UsuarioService {
         usuario.setSenha(usuarioRequestDTO.getSenha());
         usuarioRepository.save(usuario);
         return usuarioResponseDTO(usuario);
+    }
+
+    public List<UsuarioResponseDTO> listar (){
+        List<Usuario> usuarios = usuarioRepository.findAll();
+        List<UsuarioResponseDTO> usuariosResponseDTO = new ArrayList<>();
+        for(Usuario usuario : usuarios){
+            usuariosResponseDTO.add(usuarioResponseDTO(usuario));
+        }
+        return usuariosResponseDTO;
     }
 
 }
