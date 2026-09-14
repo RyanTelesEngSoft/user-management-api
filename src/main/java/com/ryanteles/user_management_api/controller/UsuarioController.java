@@ -4,42 +4,28 @@ import com.ryanteles.user_management_api.dto.UsuarioRequestDTO;
 import com.ryanteles.user_management_api.dto.UsuarioResponseDTO;
 import com.ryanteles.user_management_api.service.UsuarioService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
-import java.util.List;
+import java.net.URI;
+
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-        private final UsuarioService service;
+        private final UsuarioService usuarioService;
 
         public UsuarioController(UsuarioService service) {
-            this.service = service;
+            this.usuarioService = service;
         }
 
     @PostMapping
-    public String cadastrar(@Valid @RequestBody UsuarioRequestDTO dto){
-
-        service.cadastrar(dto);
-
-        return "Usuario Cadastrado!";
-    }
-
-    @GetMapping
-    public List<UsuarioResponseDTO> listar() {
-        return service.listar();
-    }
-
-    @PutMapping("/{id}")
-    public String atualizar(@PathVariable Long id,@Valid @RequestBody UsuarioRequestDTO dto) {
-
-        return service.atualizar(id, dto);
-    }
-    @DeleteMapping("/{id}")
-    public String remover(@PathVariable Long id){
-
-        return service.remover(id);
+    public ResponseEntity<UsuarioResponseDTO> cadastrar(@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO) {
+        UsuarioResponseDTO usuarioCriado = usuarioService.cadastrar(usuarioRequestDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioCriado.getId()).toUri();
+        return ResponseEntity.created(location).body(usuarioCriado);
     }
 }
