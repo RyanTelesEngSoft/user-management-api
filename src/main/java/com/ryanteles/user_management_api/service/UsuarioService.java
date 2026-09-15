@@ -5,11 +5,13 @@ package com.ryanteles.user_management_api.service;
 import com.ryanteles.user_management_api.dto.UsuarioRequestDTO;
 import com.ryanteles.user_management_api.dto.UsuarioResponseDTO;
 import com.ryanteles.user_management_api.entity.Usuario;
+import com.ryanteles.user_management_api.exception.UsuarioNotFoundException;
 import com.ryanteles.user_management_api.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -52,6 +54,12 @@ public class UsuarioService {
             usuariosResponseDTO.add(usuarioResponseDTO(usuario));
         }
         return usuariosResponseDTO;
+    }
+
+    public UsuarioResponseDTO buscarPorId(Long id){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findAllById(id);
+        Usuario usuario = usuarioOptional.orElseThrow(()-> new UsuarioNotFoundException("Usuario não encontrado!"));
+        return usuarioResponseDTO(usuario);
     }
 
 }
