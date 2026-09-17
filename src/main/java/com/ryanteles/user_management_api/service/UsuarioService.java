@@ -62,4 +62,9 @@ public class UsuarioService {
         return usuarioResponseDTO(usuario);
     }
 
+    public void deletar (Long id){
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(()-> new UsuarioNotFoundException("Usuario não encontrado!"));
+        usuarioRepository.deleteById(id);
+    }
+
 }

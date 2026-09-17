@@ -40,4 +40,10 @@ public class UsuarioController {
     public UsuarioResponseDTO buscarPorId(@PathVariable Long id){
             return usuarioService.buscarPorId(id);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+            usuarioService.deletar(id);
+            return ResponseEntity.noContent().build();
+    }
 }
