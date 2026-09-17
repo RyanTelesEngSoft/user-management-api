@@ -46,4 +46,9 @@ public class UsuarioController {
             usuarioService.deletar(id);
             return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public UsuarioResponseDTO atualizar (@PathVariable Long id,@Valid @RequestBody UsuarioRequestDTO usuarioRequestDTO){
+          return usuarioService.atualizar(id, usuarioRequestDTO);
+    }
 }

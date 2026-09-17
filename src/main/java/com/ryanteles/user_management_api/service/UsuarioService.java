@@ -67,4 +67,14 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    public UsuarioResponseDTO atualizar (Long id, UsuarioRequestDTO usuarioAtualziado){
+        Usuario usuarioExistente = usuarioRepository.findById(id).orElseThrow(()-> new UsuarioNotFoundException("Usuario não encontrado!"));
+        usuarioExistente.setNome(usuarioAtualziado.getNome());
+        usuarioExistente.setSobrenome(usuarioAtualziado.getSobrenome());
+        usuarioExistente.setDataNascimento(usuarioAtualziado.getDataNascimento());
+        usuarioExistente.setEmail(usuarioAtualziado.getEmail());
+        usuarioExistente.setSenha(usuarioAtualziado.getSenha());
+        usuarioRepository.save(usuarioExistente);
+        return usuarioResponseDTO(usuarioExistente);
+    }
 }
