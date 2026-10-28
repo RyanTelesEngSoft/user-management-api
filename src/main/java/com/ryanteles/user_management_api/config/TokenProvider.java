@@ -59,7 +59,7 @@ public class TokenProvider {
                 .getPayload();
     }
 
-    private String getUsername(String token){
+    public String getUsername(String token){
         return getClaims(token).getSubject();
     }
 
