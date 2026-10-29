@@ -57,8 +57,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO buscarPorId(Long id){
-        Optional<Usuario> usuarioOptional = usuarioRepository.findAllById(id);
-        Usuario usuario = usuarioOptional.orElseThrow(()-> new UsuarioNotFoundException("Usuario não encontrado!"));
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(()-> new UsuarioNotFoundException("Usuario não encontrado!"));
         return usuarioResponseDTO(usuario);
     }
 
