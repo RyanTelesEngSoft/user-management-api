@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                         {response.setStatus(HttpStatus.FORBIDDEN.value());
                         }))
                 .authorizeHttpRequests(auth ->
-                    auth.requestMatchers(HttpMethod.POST,"/login", "/cadastro").permitAll().anyRequest().hasRole("ADMIN"))
+                    auth.requestMatchers(HttpMethod.POST,"/auth/login", "/usuarios").permitAll().anyRequest().hasAuthority("ADMIN"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
