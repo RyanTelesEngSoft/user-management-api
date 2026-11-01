@@ -4,24 +4,28 @@ package com.ryanteles.user_management_api.service;
 
 import com.ryanteles.user_management_api.dto.UsuarioRequestDTO;
 import com.ryanteles.user_management_api.dto.UsuarioResponseDTO;
+import com.ryanteles.user_management_api.entity.RoleEntity;
 import com.ryanteles.user_management_api.entity.Usuario;
+import com.ryanteles.user_management_api.enums.RoleTypeEnum;
+import com.ryanteles.user_management_api.exception.BadRequestException;
 import com.ryanteles.user_management_api.exception.UsuarioNotFoundException;
+import com.ryanteles.user_management_api.repository.RolesRepository;
 import com.ryanteles.user_management_api.repository.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
-
+@RequiredArgsConstructor
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+    private final RolesRepository rolesRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UsuarioResponseDTO usuarioResponseDTO(Usuario usuario){
         UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO();
@@ -33,17 +37,27 @@ public class UsuarioService {
         return usuarioResponseDTO;
     }
 
-    public UsuarioResponseDTO cadastrar (UsuarioRequestDTO usuarioRequestDTO){
-        if(usuarioRequestDTO == null){
-            throw new IllegalArgumentException("O usuario não pode está vazio");
+    public UsuarioResponseDTO cadastrar (UsuarioRequestDTO usuarioRequestDTO) throws BadRequestException {
+
+        if(usuarioRepository.findByEmail(usuarioRequestDTO.getEmail()).isPresent()){
+            throw new BadRequestException("Email já cadastrado!");
         }
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioRequestDTO.getNome());
-        usuario.setSobrenome(usuarioRequestDTO.getSobrenome());
-        usuario.setDataNascimento(usuarioRequestDTO.getDataNascimento());
-        usuario.setEmail(usuarioRequestDTO.getEmail());
-        usuario.setSenha(usuarioRequestDTO.getSenha());
-        usuarioRepository.save(usuario);
+
+        RoleEntity role = rolesRepository.findByNome(RoleTypeEnum.BASIC.name()).orElseGet(()-> rolesRepository
+                .save(RoleEntity
+                .builder()
+                .nome(RoleTypeEnum.BASIC.name())
+                .build()));
+
+        Usuario usuario = usuarioRepository.save(Usuario.builder()
+                .nome(usuarioRequestDTO.getNome())
+                .sobrenome(usuarioRequestDTO.getSobrenome())
+                .dataNascimento(usuarioRequestDTO.getDataNascimento())
+                .email(usuarioRequestDTO.getEmail())
+                .senha(passwordEncoder.encode(usuarioRequestDTO.getSenha()))
+                .roles(Set.of(role))
+                .build());
+
         return usuarioResponseDTO(usuario);
     }
 
