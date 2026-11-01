@@ -1,10 +1,7 @@
 package com.ryanteles.user_management_api.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 
@@ -14,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
+@Builder
 public class RoleEntity implements GrantedAuthority {
 
     @Id
