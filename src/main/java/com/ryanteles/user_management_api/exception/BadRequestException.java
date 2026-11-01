@@ -1,4 +1,8 @@
 package com.ryanteles.user_management_api.exception;
 
-public class BadRequestException {
+public class BadRequestException extends RuntimeException{
+
+    public BadRequestException (String message){
+        super(message);
+    }
 }
